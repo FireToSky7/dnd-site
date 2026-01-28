@@ -1,0 +1,72 @@
+.character-card-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 12px;
+}
+
+.character-card-modal {
+  background: #1a1210;
+  border: 1px solid rgba(201,169,89,0.4);
+  border-radius: 12px;
+  max-height: 95vh;
+  max-width: min(580px, 96vw);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.character-card-modal__body {
+  overflow-y: auto;
+  padding: 20px;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.character-card-modal__card-wrap {
+  overflow: visible;
+  flex-shrink: 0;
+}
+
+.character-card-modal__body .character-card {
+  max-width: min(520px, 90vw);
+}
+
+.character-card-modal__actions {
+  display: flex;
+  gap: 12px;
+  padding: 16px 20px;
+  border-top: 1px solid rgba(201,169,89,0.2);
+  flex-shrink: 0;
+}
+
+.character-card-modal__btn {
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: 1px solid rgba(201,169,89,0.5);
+  background: rgba(201,169,89,0.2);
+  color: #c9a959;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.character-card-modal__btn:hover {
+  background: rgba(201,169,89,0.3);
+}
+
+.character-card-modal__btn--export {
+  background: #c9a959;
+  color: #1a0f0f;
+  border-color: #c9a959;
+}
+
+.character-card-modal__btn--export:hover {
+  background: #d4b96a;
+}

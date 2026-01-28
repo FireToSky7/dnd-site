@@ -1,0 +1,144 @@
+.admin-page h1 {
+  color: #c9a959;
+  margin-bottom: 20px;
+}
+
+.admin-err {
+  color: #e07070;
+  margin-bottom: 16px;
+}
+
+.admin-section {
+  margin-bottom: 36px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid rgba(201,169,89,0.2);
+}
+
+.admin-section h2 {
+  color: #c9a959;
+  font-size: 1.1rem;
+  margin-bottom: 12px;
+}
+
+.admin-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.admin-form input[type="text"],
+.admin-form input[type="password"],
+.admin-form input[type="number"],
+.admin-form input[type="date"],
+.admin-form select,
+.admin-form textarea {
+  padding: 8px 12px;
+  border: 1px solid rgba(201,169,89,0.4);
+  border-radius: 6px;
+  background: rgba(0,0,0,0.3);
+  color: #e8e0d5;
+  min-width: 140px;
+}
+
+.admin-form .form-row {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.admin-form .form-row label {
+  display: block;
+  font-size: 0.9rem;
+  color: rgba(232,224,213,0.9);
+  margin-bottom: 4px;
+}
+
+.admin-form .form-row.two { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.admin-form .form-row.three { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+
+.admin-form .form-row.three input { max-width: 100px; }
+
+.stats-inp { display: flex; gap: 8px; flex-wrap: wrap; }
+.stats-inp input { width: 48px; text-align: center; }
+
+.skills-chk { display: flex; flex-wrap: wrap; gap: 8px 16px; }
+.skills-chk label { display: flex; align-items: center; gap: 4px; cursor: pointer; font-size: 0.9rem; }
+.skills-chk input { width: auto; min-width: auto; }
+
+.ability-row { display: flex; gap: 8px; margin-bottom: 8px; }
+.ability-row input:first-child { flex: 0 0 160px; }
+.ability-row input:last-child { flex: 1; }
+.ability-row--3 { display: flex; gap: 8px; margin-bottom: 8px; flex-wrap: wrap; }
+.ability-row--3 input:nth-child(1) { flex: 0 0 140px; }
+.ability-row--3 input:nth-child(2) { flex: 0 0 100px; }
+.ability-row--3 input:nth-child(3) { flex: 1; min-width: 120px; }
+
+.participants-chk { display: flex; flex-wrap: wrap; gap: 8px 16px; }
+.participants-chk label { display: flex; align-items: center; gap: 6px; cursor: pointer; font-size: 0.9rem; }
+.participants-chk input { width: auto; min-width: auto; }
+.participants-chk .muted { color: rgba(232,224,213,0.5); font-size: 0.9rem; }
+
+.btn-sm { padding: 4px 10px; font-size: 0.85rem; background: rgba(201,169,89,0.3); border: 1px solid rgba(201,169,89,0.5); color: #c9a959; border-radius: 6px; }
+.btn-sm:hover { background: rgba(201,169,89,0.4); }
+
+.admin-form button[type="submit"] {
+  padding: 10px 20px;
+  background: #c9a959;
+  color: #1a0f0f;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+}
+
+.admin-form button[type="submit"]:hover { background: #d4b96a; }
+
+.admin-list { list-style: none; }
+.admin-list li { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.08); }
+.admin-list .btn-del { margin-left: 10px; }
+
+.btn-del {
+  padding: 4px 10px;
+  font-size: 0.85rem;
+  background: rgba(200, 80, 80, 0.3);
+  border: 1px solid rgba(200, 80, 80, 0.6);
+  color: #e8a0a0;
+  border-radius: 6px;
+}
+.btn-del:hover { background: rgba(200, 80, 80, 0.5); }
+
+.card-click-wrap { cursor: pointer; }
+
+.card-with-del { position: relative; }
+.card-with-del .card-meta { font-size: 0.8rem; color: rgba(232,224,213,0.6); margin-top: 8px; }
+.card-with-del .card-actions { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
+.card-with-del .btn-edit {
+  padding: 4px 10px;
+  font-size: 0.85rem;
+  background: rgba(201, 169, 89, 0.3);
+  border: 1px solid rgba(201, 169, 89, 0.6);
+  color: #c9a959;
+  border-radius: 6px;
+}
+.card-with-del .btn-edit:hover { background: rgba(201, 169, 89, 0.45); }
+.card-with-del .btn-del { margin-top: 0; }
+
+.session-with-del { position: relative; }
+.session-with-del .session-actions { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+.session-with-del .btn-edit {
+  padding: 4px 10px;
+  font-size: 0.85rem;
+  background: rgba(201, 169, 89, 0.3);
+  border: 1px solid rgba(201, 169, 89, 0.6);
+  color: #c9a959;
+  border-radius: 6px;
+}
+.session-with-del .btn-edit:hover { background: rgba(201, 169, 89, 0.45); }
+
+.admin-page .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
+.admin-page .sessions-list { max-width: 700px; min-width: 0; }
+
+.admin-loading { text-align: center; padding: 40px; color: #c9a959; }
+
+.admin-form.character-form { display: block; }
+
+.admin-page .empty { color: rgba(232,224,213,0.6); font-style: italic; margin: 8px 0; }

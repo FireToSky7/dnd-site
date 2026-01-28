@@ -1,0 +1,38 @@
+.dashboard h2 {
+  color: #c9a959;
+  font-size: 1.25rem;
+  margin-bottom: 16px;
+}
+
+.dashboard-section {
+  margin-bottom: 36px;
+}
+
+.dashboard-loading,
+.dashboard-error {
+  text-align: center;
+  padding: 40px;
+  color: #c9a959;
+}
+
+.dashboard-error {
+  color: #e07070;
+}
+
+.empty {
+  color: rgba(232,224,213,0.6);
+  font-style: italic;
+}
+
+.card-click-wrap { cursor: pointer; }
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+.sessions-list {
+  max-width: 700px;
+  min-width: 0;
+}

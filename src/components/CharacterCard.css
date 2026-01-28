@@ -1,0 +1,121 @@
+.character-card {
+  background: linear-gradient(145deg, #2a1f1a 0%, #1f1512 100%);
+  border: 2px solid rgba(201, 169, 89, 0.4);
+  border-radius: 12px;
+  padding: 20px;
+  max-width: 420px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+}
+
+.character-card__name {
+  color: #c9a959;
+  font-size: 1.35rem;
+  text-align: center;
+  margin-bottom: 12px;
+  text-decoration: underline;
+  font-style: italic;
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.character-card__img-wrap {
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.character-card__img {
+  max-width: 100%;
+  max-height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid rgba(201,169,89,0.3);
+}
+
+.character-card__bio-wrap {
+  margin-bottom: 14px;
+}
+
+.character-card__bio-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: #c9a959;
+  font-size: 0.95rem;
+  text-decoration: underline;
+  text-align: left;
+}
+
+.character-card__bio-toggle:hover {
+  color: #d4b96a;
+}
+
+.character-card__bio-chevron {
+  font-size: 0.75rem;
+  opacity: 0.9;
+}
+
+.character-card__bio-wrap .character-card__bio {
+  margin-top: 8px;
+  margin-bottom: 0;
+}
+
+.character-card__bio {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #e0d8ce;
+  margin-bottom: 14px;
+  white-space: pre-wrap;
+}
+
+.character-card__stats-inline {
+  margin-bottom: 14px;
+}
+
+.character-card__stats-inline p {
+  font-size: 0.95rem;
+  margin: 4px 0;
+  color: #e8e0d5;
+}
+
+.character-card__stats-inline strong {
+  color: #c9a959;
+  margin-right: 6px;
+}
+
+.character-card__block-title {
+  font-size: 0.95rem;
+  color: #c9a959;
+  margin: 12px 0 6px;
+  text-decoration: underline;
+  text-transform: none;
+}
+
+.character-card__mods {
+  list-style: none;
+  font-size: 0.95rem;
+  color: #e8e0d5;
+  margin: 0 0 8px;
+  padding: 0;
+}
+
+.character-card__mods li {
+  margin: 2px 0;
+}
+
+.character-card__ability {
+  font-size: 0.9rem;
+  color: #e0d8ce;
+  margin-bottom: 8px;
+  padding-left: 6px;
+  border-left: 2px solid rgba(201,169,89,0.4);
+}
+
+.character-card__ability strong {
+  color: #e8e0d5;
+}
