@@ -1,1 +1,1 @@
-{"users":[{"id":"1","login":"admin","passwordHash":"$2a$10$itmYfiZv0m.WLUYbjCW0COvkiBBlHHLwr80pFIpteVRejpkKX/DXO","role":"admin"},{"id":"1769667552854","login":"ввввв","passwordHash":"$2a$10$unc51LpWsPu/ycBl.6YRseSoVba0BIWITbRLEZgTnuGvNRQDhVCzm","role":"user"}],"characters":[],"sessions":[],"upcomingSessions":[]}
+{"users":[{"id":"1","login":"admin","passwordHash":"$2a$10$itmYfiZv0m.WLUYbjCW0COvkiBBlHHLwr80pFIpteVRejpkKX/DXO","role":"admin"}],"characters":[],"sessions":[],"upcomingSessions":[]}
