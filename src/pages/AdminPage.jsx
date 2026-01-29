@@ -182,10 +182,13 @@ export default function AdminPage() {
 
   const addPassiveRow = () => setChPassive(p => [...p, { name: '', description: '' }]);
   const updPassive = (i, f, v) => setChPassive(p => p.map((a, j) => j === i ? { ...a, [f]: v } : a));
+  const delPassiveRow = (i) => setChPassive(p => p.length <= 1 ? [{ name: '', description: '' }] : p.filter((_, j) => j !== i));
   const addActiveRow = () => setChActive(a => [...a, { name: '', uses: '', description: '' }]);
   const updActive = (i, f, v) => setChActive(a => a.map((x, j) => j === i ? { ...x, [f]: v } : x));
+  const delActiveRow = (i) => setChActive(a => a.length <= 1 ? [{ name: '', uses: '', description: '' }] : a.filter((_, j) => j !== i));
   const addItemRow = () => setChItems(p => [...p, { name: '', description: '' }]);
   const updItem = (i, f, v) => setChItems(p => p.map((a, j) => j === i ? { ...a, [f]: v } : a));
+  const delItemRow = (i) => setChItems(p => p.length <= 1 ? [{ name: '', description: '' }] : p.filter((_, j) => j !== i));
 
   const toggleSessChar = (id) => setSessCharacterIds(prev => prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]);
 
@@ -262,6 +265,7 @@ export default function AdminPage() {
               <div key={i} className="ability-row">
                 <input placeholder="Название" value={a.name} onChange={e => updPassive(i, 'name', e.target.value)} />
                 <input placeholder="Описание" value={a.description} onChange={e => updPassive(i, 'description', e.target.value)} />
+                <button type="button" className="btn-sm btn-remove" onClick={() => delPassiveRow(i)} title="Удалить строку">×</button>
               </div>
             ))}
             <button type="button" className="btn-sm" onClick={addPassiveRow}>+ пассивное умение</button>
@@ -273,6 +277,7 @@ export default function AdminPage() {
                 <input placeholder="Название" value={a.name} onChange={e => updActive(i, 'name', e.target.value)} />
                 <input placeholder="Напр. 1 раз, 2 раза" value={a.uses} onChange={e => updActive(i, 'uses', e.target.value)} />
                 <input placeholder="Описание" value={a.description} onChange={e => updActive(i, 'description', e.target.value)} />
+                <button type="button" className="btn-sm btn-remove" onClick={() => delActiveRow(i)} title="Удалить строку">×</button>
               </div>
             ))}
             <button type="button" className="btn-sm" onClick={addActiveRow}>+ активная способность</button>
@@ -283,6 +288,7 @@ export default function AdminPage() {
               <div key={i} className="ability-row">
                 <input placeholder="Название" value={a.name} onChange={e => updItem(i, 'name', e.target.value)} />
                 <input placeholder="Описание" value={a.description} onChange={e => updItem(i, 'description', e.target.value)} />
+                <button type="button" className="btn-sm btn-remove" onClick={() => delItemRow(i)} title="Удалить строку">×</button>
               </div>
             ))}
             <button type="button" className="btn-sm" onClick={addItemRow}>+ предмет</button>

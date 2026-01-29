@@ -54,10 +54,13 @@ export default function EditCharacterModal({ character, users, onSave, onClose }
 
   const addPassive = () => setPassive(p => [...p, { name: '', description: '' }]);
   const updPassive = (idx, f, v) => setPassive(p => p.map((a, i) => i === idx ? { ...a, [f]: v } : a));
+  const delPassive = (idx) => setPassive(p => p.length <= 1 ? [{ name: '', description: '' }] : p.filter((_, i) => i !== idx));
   const addActive = () => setActive(a => [...a, { name: '', uses: '', description: '' }]);
   const updActive = (idx, f, v) => setActive(a => a.map((x, i) => i === idx ? { ...x, [f]: v } : x));
+  const delActive = (idx) => setActive(a => a.length <= 1 ? [{ name: '', uses: '', description: '' }] : a.filter((_, i) => i !== idx));
   const addItem = () => setItems(i => [...i, { name: '', description: '' }]);
   const updItem = (idx, f, v) => setItems(i => i.map((a, j) => j === idx ? { ...a, [f]: v } : a));
+  const delItem = (idx) => setItems(i => i.length <= 1 ? [{ name: '', description: '' }] : i.filter((_, j) => j !== idx));
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -145,6 +148,7 @@ export default function EditCharacterModal({ character, users, onSave, onClose }
               <div key={i} className="ability-row">
                 <input placeholder="Название" value={a.name} onChange={e => updPassive(i, 'name', e.target.value)} />
                 <input placeholder="Описание" value={a.description} onChange={e => updPassive(i, 'description', e.target.value)} />
+                <button type="button" className="btn-sm btn-remove" onClick={() => delPassive(i)} title="Удалить строку">×</button>
               </div>
             ))}
             <button type="button" className="btn-sm" onClick={addPassive}>+</button>
@@ -156,6 +160,7 @@ export default function EditCharacterModal({ character, users, onSave, onClose }
                 <input placeholder="Название" value={a.name} onChange={e => updActive(i, 'name', e.target.value)} />
                 <input placeholder="Использований" value={a.uses} onChange={e => updActive(i, 'uses', e.target.value)} />
                 <input placeholder="Описание" value={a.description} onChange={e => updActive(i, 'description', e.target.value)} />
+                <button type="button" className="btn-sm btn-remove" onClick={() => delActive(i)} title="Удалить строку">×</button>
               </div>
             ))}
             <button type="button" className="btn-sm" onClick={addActive}>+</button>
@@ -166,6 +171,7 @@ export default function EditCharacterModal({ character, users, onSave, onClose }
               <div key={i} className="ability-row">
                 <input placeholder="Название" value={a.name} onChange={e => updItem(i, 'name', e.target.value)} />
                 <input placeholder="Описание" value={a.description} onChange={e => updItem(i, 'description', e.target.value)} />
+                <button type="button" className="btn-sm btn-remove" onClick={() => delItem(i)} title="Удалить строку">×</button>
               </div>
             ))}
             <button type="button" className="btn-sm" onClick={addItem}>+</button>

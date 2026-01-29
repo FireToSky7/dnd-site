@@ -80,6 +80,8 @@
 
 .btn-sm { padding: 4px 10px; font-size: 0.85rem; background: rgba(201,169,89,0.3); border: 1px solid rgba(201,169,89,0.5); color: #c9a959; border-radius: 6px; }
 .btn-sm:hover { background: rgba(201,169,89,0.4); }
+.ability-row .btn-remove { flex-shrink: 0; width: 32px; padding: 4px; font-size: 1.2rem; line-height: 1; color: #c9a959; background: rgba(180,60,60,0.3); border-color: rgba(180,60,60,0.6); }
+.ability-row .btn-remove:hover { background: rgba(180,60,60,0.5); }
 
 .admin-form button[type="submit"] {
   padding: 10px 20px;

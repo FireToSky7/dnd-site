@@ -61,3 +61,6 @@
 }
 
 .edit-char-modal__actions .btn-ghost:hover { background: rgba(201,169,89,0.15); }
+
+.edit-char-form .ability-row .btn-remove { flex-shrink: 0; width: 32px; padding: 4px; font-size: 1.2rem; line-height: 1; color: #c9a959; background: rgba(180,60,60,0.3); border-color: rgba(180,60,60,0.6); }
+.edit-char-form .ability-row .btn-remove:hover { background: rgba(180,60,60,0.5); }
