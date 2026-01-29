@@ -1,1 +1,1 @@
-{"users":[{"id":"1","login":"admin","passwordHash":"$2a$10$itmYfiZv0m.WLUYbjCW0COvkiBBlHHLwr80pFIpteVRejpkKX/DXO","role":"admin"}],"characters":[],"sessions":[],"upcomingSessions":[]}
+{"users":[{"id":"1","login":"admin","passwordHash":"$2a$10$itmYfiZv0m.WLUYbjCW0COvkiBBlHHLwr80pFIpteVRejpkKX/DXO","role":"admin"},{"id":"1769680999972","login":"Илья","passwordHash":"$2a$10$AWHRHoh2/A.hVBzmeF8C4OckpaI95LBfoBXMgJT4fVCOfDlMftYrC","role":"user"}],"characters":[],"sessions":[],"upcomingSessions":[]}
