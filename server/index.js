@@ -6,7 +6,7 @@ import multer from 'multer';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { readDb, writeDb, useGitHub, getCharacterImageUrl, stripCharacter } from './db.js';
+import { readDb, writeDb, useGitHub, getCharacterImageUrl, stripCharacter, getCharacterPortraitFromGitHub, deleteCharacterPortraitInGitHub } from './db.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const UPLOADS_DIR = path.join(__dirname, 'uploads', 'characters');
@@ -130,9 +130,21 @@ app.get('/api/characters/:id/portrait', async (req, res) => {
   try {
     const db = await readDb();
     const ch = db.characters.find(c => c.id === req.params.id);
-    if (!ch || !ch.imageBase64) return res.status(404).json({ error: 'Нет портрета' });
-    const buf = Buffer.from(ch.imageBase64, 'base64');
-    res.set('Content-Type', ch.imageMime || 'image/jpeg');
+    if (!ch) return res.status(404).json({ error: 'Нет портрета' });
+    let base64, mime;
+    if (ch.imageBase64) {
+      base64 = ch.imageBase64;
+      mime = ch.imageMime || 'image/jpeg';
+    } else if (useGitHub() && ch.hasPortrait) {
+      const portrait = await getCharacterPortraitFromGitHub(ch.id);
+      if (!portrait) return res.status(404).json({ error: 'Нет портрета' });
+      base64 = portrait.base64;
+      mime = portrait.mime || 'image/jpeg';
+    } else {
+      return res.status(404).json({ error: 'Нет портрета' });
+    }
+    const buf = Buffer.from(base64, 'base64');
+    res.set('Content-Type', mime);
     res.send(buf);
   } catch (e) { res.status(500).json({ error: e.message }); }
 });
@@ -282,7 +294,9 @@ app.delete('/api/characters/:id', auth, adminOnly, async (req, res) => {
     db.characters.splice(i, 1);
     db.sessions.forEach(s => { if (s.characterIds) s.characterIds = s.characterIds.filter(id => id !== ch.id); });
     (db.upcomingSessions || []).forEach(s => { if (s.characterIds) s.characterIds = s.characterIds.filter(id => id !== ch.id); });
-    if (!useGitHub() && ch.imageUrl) {
+    if (useGitHub() && (ch.hasPortrait || ch.imageBase64)) {
+      try { await deleteCharacterPortraitInGitHub(ch.id); } catch (_) {}
+    } else if (!useGitHub() && ch.imageUrl) {
       const fp = path.join(UPLOADS_DIR, path.basename(ch.imageUrl));
       try { if (fs.existsSync(fp)) fs.unlinkSync(fp); } catch (_) {}
     }
