@@ -23,8 +23,14 @@ async function githubReadDb() {
   if (!res.ok) throw new Error(`GitHub API ${res.status}: ${await res.text()}`);
   const json = await res.json();
   const b64 = (json.content || '').replace(/\n/g, '');
-  const str = Buffer.from(b64, 'base64').toString('utf8');
-  const db = JSON.parse(str);
+  const str = Buffer.from(b64, 'base64').toString('utf8').trim();
+  if (!str) return DEFAULT_DB();
+  let db;
+  try {
+    db = JSON.parse(str);
+  } catch (_) {
+    return DEFAULT_DB();
+  }
   if (!Array.isArray(db.upcomingSessions)) db.upcomingSessions = [];
   return db;
 }
