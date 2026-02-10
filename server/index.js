@@ -454,7 +454,8 @@ app.get('/api/map', auth, async (req, res) => {
     const characters = characterIds.map(id => {
       const c = db.characters.find(ch => ch.id === id);
       if (!c) return null;
-      return { id: c.id, name: c.name, imageUrl: getCharacterImageUrl(c) };
+      if (req.user.role !== 'admin' && c.userId !== req.user.id) return null;
+      return stripCharacter(c);
     }).filter(Boolean);
     res.json({ ...map, characters });
   } catch (e) { res.status(500).json({ error: e.message }); }

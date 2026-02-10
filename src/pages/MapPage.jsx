@@ -471,7 +471,7 @@ export default function MapPage({ user }) {
               const placeIds = data.placeIds || [];
               const lastPlaceId = placeIds[placeIds.length - 1];
               const place = placeById(lastPlaceId);
-              const character = charactersForDisplay.find(c => c.id === charId);
+              const character = charactersForDisplay.find(c => String(c.id) === String(charId));
               if (!place || !character) return;
               const key = place.id;
               if (!byPlace[key]) byPlace[key] = { place, list: [] };

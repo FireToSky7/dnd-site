@@ -146,26 +146,37 @@ export async function getCharacterPortraitFromGitHub(characterId) {
   }
 }
 
+async function ghGetSha(filePath) {
+  const getRes = await fetch(ghUrl(filePath), { headers: ghHeaders() });
+  if (!getRes.ok) return null;
+  const j = await getRes.json();
+  return j.sha || null;
+}
+
 async function ghPutFile(filePath, content, message) {
   const url = ghUrl(filePath);
-  let sha = null;
-  try {
-    const getRes = await fetch(url, { headers: ghHeaders() });
-    if (getRes.ok) {
-      const j = await getRes.json();
-      sha = j.sha;
-    }
-  } catch (_) {}
+  let sha = await ghGetSha(filePath);
   const body = {
     message,
     content: Buffer.from(JSON.stringify(content), 'utf8').toString('base64')
   };
   if (sha) body.sha = sha;
-  const putRes = await fetch(url, {
+  let putRes = await fetch(url, {
     method: 'PUT',
     headers: { ...ghHeaders(), 'Content-Type': 'application/json' },
     body: JSON.stringify(body)
   });
+  if (putRes.status === 409) {
+    sha = await ghGetSha(filePath);
+    if (sha) {
+      body.sha = sha;
+      putRes = await fetch(url, {
+        method: 'PUT',
+        headers: { ...ghHeaders(), 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+    }
+  }
   if (!putRes.ok) throw new Error(`GitHub PUT ${filePath} ${putRes.status}: ${await putRes.text()}`);
 }
 
