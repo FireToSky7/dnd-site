@@ -9,6 +9,7 @@ export default function Layout({ user, onLogout, children }) {
         <nav>
           {user?.role === 'admin' && <Link to="/admin">Админ-панель</Link>}
           <Link to="/">Главная</Link>
+          <Link to="/map">Карта мира</Link>
           <span className="user">{user?.login}</span>
           <button type="button" className="btn-logout" onClick={onLogout}>Выйти</button>
         </nav>

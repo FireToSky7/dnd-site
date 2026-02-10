@@ -3,7 +3,7 @@ import { toPng } from 'html-to-image';
 import CharacterCard from './CharacterCard';
 import './CharacterCardModal.css';
 
-export default function CharacterCardModal({ character, onClose }) {
+export default function CharacterCardModal({ character, onClose, hideBio }) {
   const cardRef = useRef(null);
 
   const handleExport = async () => {
@@ -33,7 +33,7 @@ export default function CharacterCardModal({ character, onClose }) {
       <div className="character-card-modal" onClick={e => e.stopPropagation()}>
         <div className="character-card-modal__body">
           <div className="character-card-modal__card-wrap" ref={cardRef}>
-            <CharacterCard character={character} />
+            <CharacterCard character={character} hideBio={hideBio} />
           </div>
         </div>
         <div className="character-card-modal__actions">

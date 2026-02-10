@@ -182,3 +182,17 @@ export async function deleteUpcomingSession(id) {
   const j = r.status === 204 ? {} : await r.json();
   if (!r.ok) throw new Error(j.error || 'Ошибка');
 }
+
+export async function getMap() {
+  const r = await fetch(API + '/map', { headers: getHeaders() });
+  const j = await r.json();
+  if (!r.ok) throw new Error(j.error || 'Ошибка');
+  return j;
+}
+
+export async function saveMap(data) {
+  const r = await fetch(API + '/map', { method: 'PUT', headers: getHeaders(), body: JSON.stringify(data) });
+  const j = await r.json();
+  if (!r.ok) throw new Error(j.error || 'Ошибка');
+  return j;
+}

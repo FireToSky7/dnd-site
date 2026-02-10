@@ -432,6 +432,50 @@ app.delete('/api/upcoming-sessions/:id', auth, adminOnly, async (req, res) => {
   } catch (e) { res.status(500).json({ error: e.message }); }
 });
 
+// --- Map (карта мира)
+const defaultMap = () => ({
+  landscapes: [],
+  zones: [],
+  places: [],
+  characterPaths: {},
+  placeSessions: {}
+});
+
+app.get('/api/map', auth, async (req, res) => {
+  try {
+    const db = await readDb();
+    const map = db.map && typeof db.map === 'object' ? db.map : defaultMap();
+    if (!Array.isArray(map.landscapes)) map.landscapes = [];
+    if (!Array.isArray(map.zones)) map.zones = [];
+    if (!Array.isArray(map.places)) map.places = [];
+    if (!map.characterPaths || typeof map.characterPaths !== 'object') map.characterPaths = {};
+    if (!map.placeSessions || typeof map.placeSessions !== 'object') map.placeSessions = {};
+    const characterIds = Object.keys(map.characterPaths || {});
+    const characters = characterIds.map(id => {
+      const c = db.characters.find(ch => ch.id === id);
+      if (!c) return null;
+      return { id: c.id, name: c.name, imageUrl: getCharacterImageUrl(c) };
+    }).filter(Boolean);
+    res.json({ ...map, characters });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+app.put('/api/map', auth, adminOnly, async (req, res) => {
+  try {
+    const data = req.body || {};
+    const db = await readDb();
+    db.map = {
+      landscapes: Array.isArray(data.landscapes) ? data.landscapes : (db.map?.landscapes || []),
+      zones: Array.isArray(data.zones) ? data.zones : (db.map?.zones || []),
+      places: Array.isArray(data.places) ? data.places : (db.map?.places || []),
+      characterPaths: data.characterPaths && typeof data.characterPaths === 'object' ? data.characterPaths : (db.map?.characterPaths || {}),
+      placeSessions: data.placeSessions && typeof data.placeSessions === 'object' ? data.placeSessions : (db.map?.placeSessions || {})
+    };
+    await writeDb(db);
+    res.json(db.map);
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
 // В production: раздаём собранный React (все в одном — один URL для друзей)
 const distPath = path.join(__dirname, '../dist');
 if (fs.existsSync(path.join(distPath, 'index.html'))) {

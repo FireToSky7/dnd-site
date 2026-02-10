@@ -4,6 +4,7 @@ import { me } from './api';
 import LoginPage from './pages/LoginPage';
 import Dashboard from './pages/Dashboard';
 import AdminPage from './pages/AdminPage';
+import MapPage from './pages/MapPage';
 import Layout from './components/Layout';
 
 export default function App() {
@@ -24,6 +25,7 @@ export default function App() {
       <Route path="/login" element={user ? <Navigate to="/" /> : <LoginPage onLogin={onLogin} />} />
       <Route path="/" element={user ? <Layout user={user} onLogout={onLogout}><Dashboard user={user} /></Layout> : <Navigate to="/login" />} />
       <Route path="/admin" element={user?.role === 'admin' ? <Layout user={user} onLogout={onLogout}><AdminPage /></Layout> : user ? <Navigate to="/" /> : <Navigate to="/login" />} />
+      <Route path="/map" element={user ? <Layout user={user} onLogout={onLogout}><MapPage user={user} /></Layout> : <Navigate to="/login" />} />
       <Route path="*" element={<Navigate to={user ? '/' : '/login'} />} />
     </Routes>
   );
