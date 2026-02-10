@@ -1,7 +1,10 @@
 import './SessionBlock.css';
 
-export default function SessionBlock({ session }) {
+export default function SessionBlock({ session, onParticipantsClick }) {
   const participants = session.participants || [];
+  const handleParticipantClick = () => {
+    if (participants.length > 0 && onParticipantsClick) onParticipantsClick(session);
+  };
   return (
     <article className="session-block">
       <h3>{session.title}</h3>
@@ -11,7 +14,15 @@ export default function SessionBlock({ session }) {
           <span className="session-participants__label">Участники:</span>
           <div className="session-participants__list">
             {participants.map(p => (
-              <div key={p.id} className="session-participant">
+              <div
+                key={p.id}
+                className="session-participant"
+                onClick={handleParticipantClick}
+                role="button"
+                tabIndex={0}
+                onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleParticipantClick(); } }}
+                aria-label={`Открыть карточки участников: ${participants.map(x => x.name).join(', ')}`}
+              >
                 <div className="session-participant__thumb">
                   {p.imageUrl ? (
                     <img src={p.imageUrl} alt={p.name} className="session-participant__img" />

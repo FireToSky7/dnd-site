@@ -1,0 +1,72 @@
+.participants-cards-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 16px;
+}
+
+.participants-cards-modal {
+  background: #1a1210;
+  border: 1px solid rgba(201,169,89,0.4);
+  border-radius: 12px;
+  max-height: 90vh;
+  max-width: 96vw;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.participants-cards-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(201,169,89,0.2);
+  flex-shrink: 0;
+}
+
+.participants-cards-modal__title {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #c9a959;
+}
+
+.participants-cards-modal__close {
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid rgba(201,169,89,0.5);
+  background: rgba(201,169,89,0.2);
+  color: #c9a959;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.participants-cards-modal__close:hover {
+  background: rgba(201,169,89,0.3);
+}
+
+.participants-cards-modal__body {
+  overflow-y: auto;
+  padding: 20px;
+  flex: 1;
+  min-height: 0;
+}
+
+.participants-cards-modal__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.participants-cards-modal__card-wrap {
+  break-inside: avoid;
+}
+
+.participants-cards-modal__card-wrap .character-card {
+  height: 100%;
+}

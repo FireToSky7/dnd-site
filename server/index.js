@@ -305,12 +305,16 @@ app.delete('/api/characters/:id', auth, adminOnly, async (req, res) => {
   } catch (e) { res.status(500).json({ error: e.message }); }
 });
 
-// --- Sessions
+// --- Sessions (participants = полные карточки без биографии для модалки на клиенте)
 function mapParticipants(db, characterIds) {
   return (characterIds || [])
     .map(id => db.characters.find(c => c.id === id))
     .filter(Boolean)
-    .map(c => ({ id: c.id, name: c.name, imageUrl: getCharacterImageUrl(c) }));
+    .map(c => {
+      const stripped = stripCharacter(c);
+      const { bio, ...rest } = stripped;
+      return rest;
+    });
 }
 
 app.get('/api/sessions', auth, async (req, res) => {

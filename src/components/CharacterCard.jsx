@@ -17,11 +17,12 @@ function modStr(n) {
   return String(v);
 }
 
-export default function CharacterCard({ character }) {
+export default function CharacterCard({ character, hideBio }) {
   const [bioOpen, setBioOpen] = useState(false);
   const abils = ['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom', 'charisma'];
   const passive = character.passiveAbilities || (character.abilities ? character.abilities.filter(a => !a.uses) : []);
   const active = character.activeAbilities || (character.abilities ? character.abilities.filter(a => a.uses) : []) || [];
+  const showBio = !hideBio && character.bio;
 
   return (
     <article className="character-card">
@@ -33,7 +34,7 @@ export default function CharacterCard({ character }) {
         </div>
       )}
 
-      {character.bio && (
+      {showBio && (
         <div className="character-card__bio-wrap">
           <button type="button" className="character-card__bio-toggle" onClick={() => setBioOpen(v => !v)} aria-expanded={bioOpen}>
             Биография <span className="character-card__bio-chevron">{bioOpen ? '▼' : '▶'}</span>

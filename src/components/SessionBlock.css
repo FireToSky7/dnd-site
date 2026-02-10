@@ -43,6 +43,12 @@
   align-items: center;
   gap: 6px;
   flex-shrink: 0;
+  cursor: pointer;
+}
+
+.session-block .session-participant:hover .session-participant__thumb {
+  border-color: rgba(201,169,89,0.6);
+  box-shadow: 0 0 12px rgba(201,169,89,0.25);
 }
 
 .session-block .session-participant__thumb {

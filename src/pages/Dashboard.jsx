@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { getCharacters, getSessions, getUpcomingSessions } from '../api';
 import CharacterCard from '../components/CharacterCard';
 import CharacterCardModal from '../components/CharacterCardModal';
+import ParticipantsCardsModal from '../components/ParticipantsCardsModal';
 import SessionBlock from '../components/SessionBlock';
 import './Dashboard.css';
 
@@ -12,6 +13,7 @@ export default function Dashboard({ user }) {
   const [err, setErr] = useState('');
   const [loading, setLoading] = useState(true);
   const [viewModalCharacter, setViewModalCharacter] = useState(null);
+  const [viewParticipantsModal, setViewParticipantsModal] = useState(null);
 
   const load = () => {
     setLoading(true);
@@ -53,7 +55,9 @@ export default function Dashboard({ user }) {
           <p className="empty">Пока нет запланированных партий с участием ваших персонажей.</p>
         ) : (
           <div className="sessions-list">
-            {myUpcomingSessions.map(s => <SessionBlock key={s.id} session={s} />)}
+            {myUpcomingSessions.map(s => (
+              <SessionBlock key={s.id} session={s} onParticipantsClick={sess => setViewParticipantsModal(sess.participants || [])} />
+            ))}
           </div>
         )}
       </section>
@@ -63,12 +67,17 @@ export default function Dashboard({ user }) {
           <p className="empty">Пока нет записей о сессиях с участием ваших персонажей.</p>
         ) : (
           <div className="sessions-list">
-            {mySessions.map(s => <SessionBlock key={s.id} session={s} />)}
+            {mySessions.map(s => (
+              <SessionBlock key={s.id} session={s} onParticipantsClick={sess => setViewParticipantsModal(sess.participants || [])} />
+            ))}
           </div>
         )}
       </section>
 
       {viewModalCharacter && <CharacterCardModal character={viewModalCharacter} onClose={() => setViewModalCharacter(null)} />}
+      {viewParticipantsModal && viewParticipantsModal.length > 0 && (
+        <ParticipantsCardsModal participants={viewParticipantsModal} onClose={() => setViewParticipantsModal(null)} />
+      )}
     </div>
   );
 }
