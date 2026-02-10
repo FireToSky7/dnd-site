@@ -4,11 +4,7 @@ import CharacterCardModal from '../components/CharacterCardModal';
 import './MapPage.css';
 
 const MAP_SIZE = 1000;
-const PATH_COLORS = [
-  '#e6194b', '#3cb44b', '#ffe119', '#4363d8', '#f58231', '#911eb4', '#42d4f4', '#f032e6',
-  '#bfef45', '#fabed4', '#469990', '#dcbeff', '#9a6324', '#fffac8', '#800000', '#aaffc3',
-  '#808000', '#ffd8b1', '#000075', '#a9a9a9', '#e6beff', '#2d5a27', '#8b4513', '#1e90ff'
-];
+const DEFAULT_PATH_COLOR = '#3cb44b';
 
 const PLACE_TYPES = [
   { key: 'city', label: 'Город' },
@@ -120,8 +116,10 @@ export default function MapPage({ user }) {
   const [tool, setTool] = useState(null);
   const [drawingPoints, setDrawingPoints] = useState([]);
   const [landscapeType, setLandscapeType] = useState('forest');
+  const [landscapeFill, setLandscapeFill] = useState(LANDSCAPE_TYPES[0].fill);
+  const [landscapeStroke, setLandscapeStroke] = useState(LANDSCAPE_TYPES[0].stroke);
   const [selectedCharacter, setSelectedCharacter] = useState(null);
-  const [selectedColorIndex, setSelectedColorIndex] = useState(0);
+  const [characterPathColor, setCharacterPathColor] = useState(DEFAULT_PATH_COLOR);
   const [characterPathPlaces, setCharacterPathPlaces] = useState([]);
   const [placeModal, setPlaceModal] = useState(null);
   const [sessionsModalPlaceId, setSessionsModalPlaceId] = useState(null);
@@ -194,7 +192,7 @@ export default function MapPage({ user }) {
             ...m,
             characterPaths: {
               ...m.characterPaths,
-              [selectedCharacter.id]: { placeIds: next, color: PATH_COLORS[selectedColorIndex % PATH_COLORS.length] }
+              [selectedCharacter.id]: { placeIds: next, color: characterPathColor }
             }
           }));
           return next;
@@ -218,8 +216,7 @@ export default function MapPage({ user }) {
       setNewZoneName('Новая зона');
       setZoneNameModal(zoneId);
     } else {
-      const lt = LANDSCAPE_TYPES.find(l => l.key === landscapeType) || LANDSCAPE_TYPES[0];
-      const newLandscape = { id: id(), type: landscapeType, points: points.map(([a, b]) => [a, b]), fill: lt.fill, stroke: lt.stroke };
+      const newLandscape = { id: id(), type: landscapeType, points: points.map(([a, b]) => [a, b]), fill: landscapeFill, stroke: landscapeStroke };
       setMap(m => ({ ...m, landscapes: [...(m.landscapes || []), newLandscape] }));
     }
     setDrawingPoints([]);
@@ -295,9 +292,22 @@ export default function MapPage({ user }) {
                 <button type="button" className={tool === 'zone' ? 'active' : ''} onClick={() => { setTool('zone'); setDrawingPoints([]); }}>+ Зона</button>
                 <button type="button" className={tool === 'landscape' ? 'active' : ''} onClick={() => { setTool('landscape'); setDrawingPoints([]); }}>+ Ландшафт</button>
                 {tool === 'landscape' && (
-                  <select value={landscapeType} onChange={e => setLandscapeType(e.target.value)}>
-                    {LANDSCAPE_TYPES.map(l => <option key={l.key} value={l.key}>{l.label}</option>)}
-                  </select>
+                  <>
+                    <select value={landscapeType} onChange={e => {
+                      const lt = LANDSCAPE_TYPES.find(l => l.key === e.target.value) || LANDSCAPE_TYPES[0];
+                      setLandscapeType(lt.key);
+                      setLandscapeFill(lt.fill);
+                      setLandscapeStroke(lt.stroke);
+                    }}>
+                      {LANDSCAPE_TYPES.map(l => <option key={l.key} value={l.key}>{l.label}</option>)}
+                    </select>
+                    <label className="map-page__color-label">
+                      Заливка: <input type="color" value={landscapeFill} onChange={e => setLandscapeFill(e.target.value)} title="Цвет заливки" />
+                    </label>
+                    <label className="map-page__color-label">
+                      Контур: <input type="color" value={landscapeStroke} onChange={e => setLandscapeStroke(e.target.value)} title="Цвет контура" />
+                    </label>
+                  </>
                 )}
                 <button type="button" className={tool === 'place' ? 'active' : ''} onClick={() => setTool('place')}>+ Место</button>
                 <button type="button" className={tool === 'character' ? 'active' : ''} onClick={() => { setTool('character'); setCharacterPathPlaces([]); }}>Путь персонажа</button>
@@ -307,11 +317,9 @@ export default function MapPage({ user }) {
                       <option value="">— персонаж —</option>
                       {characters.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
                     </select>
-                    <div className="map-page__color-palette">
-                      {PATH_COLORS.map((col, i) => (
-                        <button key={i} type="button" className="map-page__color-swatch" style={{ background: col }} title={col} onClick={() => setSelectedColorIndex(i)} />
-                      ))}
-                    </div>
+                    <label className="map-page__color-label">
+                      Цвет пути: <input type="color" value={characterPathColor} onChange={e => setCharacterPathColor(e.target.value)} title="Цвет линии пути" />
+                    </label>
                   </>
                 )}
                 <button type="button" className={tool === 'sessions' ? 'active' : ''} onClick={() => setTool('sessions')}>Сессии к месту</button>
@@ -429,7 +437,7 @@ export default function MapPage({ user }) {
                 y: p.y + offsetAmount * perpY
               }));
               const linePoints = offsetPts.map(p => `${p.x},${p.y}`).join(' ');
-              const color = data.color || PATH_COLORS[0];
+              const color = data.color || DEFAULT_PATH_COLOR;
               return (
                 <g key={charId}>
                   <polyline points={linePoints} fill="none" stroke={color} strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round" />
@@ -491,7 +499,7 @@ export default function MapPage({ user }) {
                     onClick={(ev) => { ev.stopPropagation(); setCharacterCardCharacter(character); }}
                     style={{ cursor: 'pointer' }}
                   >
-                    <circle r={portraitR} fill="#1a1210" stroke={data.color || PATH_COLORS[0]} strokeWidth={1.5} />
+                    <circle r={portraitR} fill="#1a1210" stroke={data.color || DEFAULT_PATH_COLOR} strokeWidth={1.5} />
                     {character.imageUrl ? (
                       <g clipPath="url(#clip-portrait-circle-big)">
                         <image href={character.imageUrl} x={-portraitR} y={-portraitR} width={portraitR * 2} height={portraitR * 2} preserveAspectRatio="xMidYMid slice" />
