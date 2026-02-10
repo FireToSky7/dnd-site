@@ -358,7 +358,7 @@ export default function MapPage({ user }) {
             return (
               <g key={l.id}>
                 <polygon points={pts} fill={l.fill || '#2d5a27'} stroke={l.stroke || '#1e3d1a'} strokeWidth={3} />
-                {editMode && tool !== 'zone' && tool !== 'landscape' && tool !== 'character' && tool !== 'sessions' && (
+                {editMode && tool !== 'zone' && tool !== 'landscape' && tool !== 'place' && tool !== 'character' && tool !== 'sessions' && (
                   <polygon points={pts} fill="transparent" stroke="transparent" strokeWidth={20} className="map-page__hit" onClick={(ev) => { ev.stopPropagation(); if (confirm('Удалить ландшафт?')) deleteLandscape(l.id); }} />
                 )}
               </g>
@@ -381,7 +381,7 @@ export default function MapPage({ user }) {
                   style={{ paintOrder: 'stroke', stroke: '#1a1210', strokeWidth: 1.5 }}
                 >{z.name}</text>
               )}
-              {editMode && tool !== 'zone' && tool !== 'landscape' && tool !== 'character' && tool !== 'sessions' && (
+              {editMode && tool !== 'zone' && tool !== 'landscape' && tool !== 'place' && tool !== 'character' && tool !== 'sessions' && (
                 <polygon points={polygonPoints(z.points)} fill="transparent" stroke="transparent" strokeWidth={20} className="map-page__hit" onClick={(ev) => { ev.stopPropagation(); if (confirm('Удалить зону?')) deleteZone(z.id); }} />
               )}
             </g>
