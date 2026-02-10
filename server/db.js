@@ -153,31 +153,31 @@ async function ghGetSha(filePath) {
   return j.sha || null;
 }
 
+const sleep = (ms) => new Promise(r => setTimeout(r, ms));
+
 async function ghPutFile(filePath, content, message) {
   const url = ghUrl(filePath);
-  let sha = await ghGetSha(filePath);
-  const body = {
-    message,
-    content: Buffer.from(JSON.stringify(content), 'utf8').toString('base64')
-  };
-  if (sha) body.sha = sha;
-  let putRes = await fetch(url, {
-    method: 'PUT',
-    headers: { ...ghHeaders(), 'Content-Type': 'application/json' },
-    body: JSON.stringify(body)
-  });
-  if (putRes.status === 409) {
-    sha = await ghGetSha(filePath);
-    if (sha) {
-      body.sha = sha;
-      putRes = await fetch(url, {
-        method: 'PUT',
-        headers: { ...ghHeaders(), 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
-      });
+  const contentB64 = Buffer.from(JSON.stringify(content), 'utf8').toString('base64');
+  const maxAttempts = 3;
+  let lastError;
+  for (let attempt = 0; attempt < maxAttempts; attempt++) {
+    const sha = await ghGetSha(filePath);
+    const body = { message, content: contentB64 };
+    if (sha) body.sha = sha;
+    const putRes = await fetch(url, {
+      method: 'PUT',
+      headers: { ...ghHeaders(), 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+    if (putRes.ok) return;
+    if (putRes.status === 409 && attempt < maxAttempts - 1) {
+      await sleep(400 * (attempt + 1));
+      continue;
     }
+    lastError = `${filePath} ${putRes.status}: ${await putRes.text()}`;
+    break;
   }
-  if (!putRes.ok) throw new Error(`GitHub PUT ${filePath} ${putRes.status}: ${await putRes.text()}`);
+  throw new Error(`GitHub PUT ${lastError}`);
 }
 
 async function githubWriteDb(data) {
