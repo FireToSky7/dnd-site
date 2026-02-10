@@ -27,7 +27,6 @@ export default function Dashboard({ user }) {
   useEffect(() => load(), []);
 
   const myCharacterIds = new Set(characters.map(c => c.id));
-  const mySessions = sessions.filter(s => (s.characterIds || []).some(cid => myCharacterIds.has(cid)));
   const myUpcomingSessions = upcomingSessions.filter(s => (s.characterIds || []).some(cid => myCharacterIds.has(cid)));
 
   if (loading) return <div className="dashboard-loading">Загрузка…</div>;
@@ -63,11 +62,11 @@ export default function Dashboard({ user }) {
       </section>
       <section className="dashboard-section">
         <h2>Сюжеты прошедших игр</h2>
-        {mySessions.length === 0 ? (
-          <p className="empty">Пока нет записей о сессиях с участием ваших персонажей.</p>
+        {sessions.length === 0 ? (
+          <p className="empty">Пока нет записей о прошедших сессиях.</p>
         ) : (
           <div className="sessions-list">
-            {mySessions.map(s => (
+            {sessions.map(s => (
               <SessionBlock key={s.id} session={s} onParticipantsClick={sess => setViewParticipantsModal(sess.participants || [])} />
             ))}
           </div>
